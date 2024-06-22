@@ -1,0 +1,22 @@
+{
+
+	"mail": {
+
+		"smtp": "mail.domain.tld", 
+		"port": 465, 
+		"from": "\"FLAQUE DELIVERY\" <mail@domain.tld>", 
+		"user": "mail@domain.tld", 
+		"pass": "password"
+
+	}, 
+
+	"opts": {
+
+		"url": "http://localhost/",
+		"storage": "orders", 
+		"orderMax": 3, 
+		"orderTime": 3600
+
+	}
+	
+}

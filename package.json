@@ -1,0 +1,26 @@
+{
+	"name": "flaque",
+	"version": "1.0.0",
+	"description": "good vibes delivered straight to your mailbox",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"lazy": "node lazy.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nicopowa/flaque.git"
+	},
+	"author": "nicopowa",
+	"license": "AGPL-3.0",
+	"bugs": {
+		"url": "https://github.com/nicopowa/flaque/issues"
+	},
+	"homepage": "https://github.com/nicopowa/flaque#readme",
+	"dependencies": {
+		"@ffmpeg-installer/ffmpeg": "^1.1.0",
+		"adm-zip": "^0.5.14",
+		"nodemailer": "^6.9.14"
+	}
+}
