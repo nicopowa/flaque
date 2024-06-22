@@ -441,7 +441,7 @@ class Flaque {
 							fullPath, 
 							(err, stat) => {
 
-								if(stat.isFile()) {
+								if(stat.isFile() && file.endsWith("zip")) {
 
 									let lifeTime = Math
 									.round(

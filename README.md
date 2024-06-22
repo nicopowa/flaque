@@ -50,7 +50,7 @@
 	```tidal-dl-ng login```
 - edit flaque.json
 	- mail : mail account settings
-	- params : 
+	- opts : 
 		- url : domain name including http(s) and no trailing slash
 		- storage : orders storage directory relative to project root
 		- orderMax : maximum orders per email address

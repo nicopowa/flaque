@@ -77,15 +77,10 @@ class FlaqueInstall {
 					{}, 
 					(err, stdout, stderr) => {
 	
-						if(err) 
-							resolve({
+						// if(err)
+						// whatever
 
-								stdout: stdout, 
-
-								stderr: stderr
-
-							});
-						else resolve({
+						resolve({
 	
 							stdout: stdout
 							.trim(), 
