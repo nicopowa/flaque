@@ -32,7 +32,12 @@ class FlaqueInstall {
 
 		console.log("check python");
 
-		let pyCheck = await this.runCmd("python --version");
+		let pyCheck = null;
+		
+		if(process.platform === "win32") 
+			pyCheck = await this.runCmd("python --version");
+		else 
+			pyCheck = await this.runCmd("python3 --version");
 
 		// console.log(pyCheck);
 

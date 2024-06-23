@@ -56,22 +56,19 @@ class Flaque {
 		this.starters = {
 
 			"qobuz": this.initQobuz, 
-			"tidal": this.initTidal
+			"tidal": this.initTidal, 
+			"soundcloud": this.initSoundcloud
 
 		};
 
 		this.checkers = {
 
-			// track
-
-			// album
-			"qobuz": "play\\.(qobuz)\\.com\\/album\\/([a-z0-9]+)", 
-			"tidal": "listen\\.(tidal)\\.com\/album\\/(\\d+)", 
+			// album || track
+			"qobuz": "(qobuz)\\.com\\/(album|track)\\/([a-z0-9]+)", 
+			"tidal": "(tidal)\\.com(?:\\/browse)?(?:\\/album\\/\\d+)?\\/(album|track)\\/(\\d+)", 
 			
 			// artist
-
 			// label
-
 			// playlist
 
 		};
@@ -121,11 +118,14 @@ class Flaque {
 
 			www = checkedURL[1], 
 
-			itm = checkedURL[2];
+			typ = checkedURL[2], 
+
+			itm = checkedURL[3];
 
 		let order = {
 			id: orderId, 
 			www: www, 
+			typ: typ, 
 			url: itm, 
 			mail: box, 
 			dir: path
@@ -136,7 +136,7 @@ class Flaque {
 			)
 		};
 
-		console.log("flaque order", order.www, order.id);
+		console.log("flaque order", order.www, order.typ, order.id);
 
 		this.queue
 		.push(order);
@@ -218,7 +218,7 @@ class Flaque {
 
 	processOrder() {
 
-		if(DEBUG) console.log("flaque process", this.current.www, this.current.id);
+		if(DEBUG) console.log("flaque process", this.current.www, this.current.typ, this.current.id);
 
 		if(this.runners.hasOwnProperty(this.current.www)) 
 			this.runners[this.current.www]
@@ -245,7 +245,7 @@ class Flaque {
 				[
 					"qobuz-dl", 
 					// album download link
-					"dl", "https://play.qobuz.com/album/" + this.current.url, 
+					"dl", "https://play.qobuz.com/" + this.current.typ + "/" + this.current.url, 
 					// output directory
 					"-d", "\"" + this.current.dir + "\"", 
 					// output quality
@@ -328,7 +328,7 @@ class Flaque {
 				[
 					"tidal-dl-ng", 
 					"dl", 
-					"https://listen.tidal.com/album/" + this.current.url
+					"https://listen.tidal.com/" + this.current.typ + "/" + this.current.url
 				]
 				.join(" ")
 			);
@@ -348,6 +348,19 @@ class Flaque {
 
 	}
 
+	initSoundcloud() {
+
+		// https://github.com/flyingrub/scdl
+
+		// console.log("flaque init soundcloud");
+
+	}
+
+	async runSoundcloud() {
+
+
+	}
+
 	compressOrder() {
 
 		console.log("flaque zip", this.current.id);
@@ -360,12 +373,12 @@ class Flaque {
 
 		if(this.current.www === "tidal") {
 
-			// Albums dir
+			// Albums or Tracks dir
 
 			zippedDir = path
 			.join(
 				this.current.dir, 
-				"Albums"
+				this.current.typ === "album" ? "Albums" : "Tracks"
 			);
 
 		}
@@ -441,7 +454,7 @@ class Flaque {
 							fullPath, 
 							(err, stat) => {
 
-								if(stat.isFile() && file.endsWith("zip")) {
+								if(stat.isFile()) {
 
 									let lifeTime = Math
 									.round(
@@ -485,15 +498,16 @@ class Flaque {
 	runCmd(cmd) {
 
 		return new Promise(
-			(resolve, reject) => 
+			resolve => 
 				exec(
 					cmd, 
 					{}, 
 					(err, stdout, stderr) => {
 	
-						if(err) 
-							reject(err);
-						else resolve({
+						// if(err)
+						// whatever
+
+						resolve({
 	
 							stdout: stdout
 							.trim(), 
